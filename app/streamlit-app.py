@@ -233,7 +233,11 @@ def main():
         st.session_state.last_fetch_time = 0
 
     # Replace the existing "Fetch New Submissions" button code with this:
-    if st.button("Fetch New Submissions"):
+    fetch_button = st.button(
+        "Fetch New Submissions",
+        help="Please wait 60 seconds between fetching posts.",
+    )
+    if fetch_button:
         current_time = time.time()
         if current_time - st.session_state.last_fetch_time >= FETCH_COOLDOWN:
             with st.spinner("Fetching submissions..."):
