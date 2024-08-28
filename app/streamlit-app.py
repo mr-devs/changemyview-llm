@@ -39,7 +39,7 @@ reddit = praw.Reddit(
 )
 
 # Initialize OpenAI client
-client = OpenAI(api_key=os.environ.get("OPENAI_OSOME_API_KEY"))
+# client = OpenAI(api_key=os.environ.get("OPENAI_OSOME_API_KEY"))
 
 
 @st.cache_data(ttl=3600)
@@ -193,7 +193,19 @@ def main():
     """
     Main function to run the Streamlit app.
     """
+    global client
     st.title("AI Persuasion Companion for CMV")
+
+    # OpenAI API key input
+    openai_api_key = st.text_input("OpenAI API Key", type="password")
+
+    # Initialize OpenAI client if API key is provided
+    if openai_api_key:
+        client = OpenAI(api_key=openai_api_key)
+        st.success("OpenAI client initialized successfully!")
+    else:
+        st.warning("Please provide the OpenAI API key to proceed.")
+        return
 
     # Create container for sort options
     sort_container = st.container()
