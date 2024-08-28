@@ -15,11 +15,14 @@ Author: Matthew R. DeVerna
 import json
 import os
 import praw
+import time
 
 import streamlit as st
 
 from openai import OpenAI
 from pydantic import BaseModel
+
+FETCH_COOLDOWN = 60
 
 
 # Build a structured JSON model for
@@ -225,13 +228,25 @@ def main():
             selected_time = "all"  # Default value when not using "top" sort
             st.empty()  # Placeholder to maintain layout
 
-    # Fetch new submissions button
+    # Add this before the "Fetch New Submissions" button
+    if "last_fetch_time" not in st.session_state:
+        st.session_state.last_fetch_time = 0
+
+    # Replace the existing "Fetch New Submissions" button code with this:
     if st.button("Fetch New Submissions"):
-        with st.spinner("Fetching submissions..."):
-            submissions = get_cmv_submissions(
-                sort_by=selected_sort, time_filter=selected_time, limit=limit
+        current_time = time.time()
+        if current_time - st.session_state.last_fetch_time >= FETCH_COOLDOWN:
+            with st.spinner("Fetching submissions..."):
+                submissions = get_cmv_submissions(
+                    sort_by=selected_sort, time_filter=selected_time, limit=limit
+                )
+            st.session_state.submissions = submissions
+            st.session_state.last_fetch_time = current_time
+        else:
+            remaining_time = int(
+                FETCH_COOLDOWN - (current_time - st.session_state.last_fetch_time)
             )
-        st.session_state.submissions = submissions
+            st.warning(f"Please wait {remaining_time} seconds before fetching again.")
 
     # Display and process submissions
     if "submissions" in st.session_state:
