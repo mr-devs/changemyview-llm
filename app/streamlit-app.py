@@ -9,8 +9,7 @@ counter-arguments directly to Reddit.
 The app uses PRAW for Reddit API interactions and OpenAI's API for text analysis.
 Streamlit is used for the web interface and session state management.
 
-Author: [Your Name]
-Date: [Current Date]
+Author: Matthew R. DeVerna
 """
 
 import json
@@ -37,9 +36,6 @@ reddit = praw.Reddit(
     user_agent="python:changemyview_llm:v1.0 (by /u/double-o-ai-science)",
     username=os.environ.get("REDDIT_USERNAME"),
 )
-
-# Initialize OpenAI client
-# client = OpenAI(api_key=os.environ.get("OPENAI_OSOME_API_KEY"))
 
 
 @st.cache_data(ttl=3600)
