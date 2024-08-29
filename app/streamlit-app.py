@@ -322,6 +322,7 @@ def main():
                             "Post Counter Argument to Reddit",
                             key=f"post_{submission.id}",
                             type="primary",
+                            disable=True,
                         ):
                             if post_to_reddit(submission, counter_argument):
                                 st.success(
