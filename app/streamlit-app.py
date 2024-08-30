@@ -260,7 +260,6 @@ def main():
                 st.session_state[submission.id] = {
                     "analyzed": False,
                     "visible": False,
-                    "posted": False,
                     "analysis": None,
                     "counter_argument": None,
                 }
@@ -315,22 +314,6 @@ def main():
                     # Display counter-argument
                     st.subheader("Counter Argument")
                     st.write(counter_argument)
-
-                    # Add the "Post to Reddit" button
-                    if not st.session_state[submission.id]["posted"]:
-                        if st.button(
-                            "Post Counter Argument to Reddit",
-                            key=f"post_{submission.id}",
-                            type="primary",
-                            disable=True,
-                        ):
-                            if post_to_reddit(submission, counter_argument):
-                                st.success(
-                                    "Successfully posted the counter argument to Reddit!"
-                                )
-                                st.session_state[submission.id]["posted"] = True
-                    else:
-                        st.success("Counter argument has been posted to Reddit.")
 
 
 if __name__ == "__main__":
