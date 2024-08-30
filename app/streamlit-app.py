@@ -195,6 +195,21 @@ def main():
     global client
     st.title("AI Persuasion Companion for CMV")
 
+    # Add app description
+    st.markdown(
+        """
+    Welcome to the AI Persuasion Companion for Change My View (CMV)!
+
+    This app fetches recent submissions from the [r/changemyview](https://www.reddit.com/r/changemyview/) subreddit, analyzes them using AI, and generates counter-arguments. You can:
+    
+    1. View top posts from CMV
+    2. Analyze the main arguments and rationale
+    3. See AI-generated counter-arguments
+    
+    To get started, enter your OpenAI API key below and click 'Fetch New Submissions'.
+    """
+    )
+
     # OpenAI API key input
     openai_api_key = st.text_input("OpenAI API Key", type="password")
 
